@@ -207,7 +207,7 @@ h2 {
   padding-left: 16px;
 }
 
-/* RULES STYLING - PRESISI DENGAN SMALLCAPS */
+/* RULES STYLING */
 .rule-block {
   margin-bottom: 24px;
 }
@@ -256,7 +256,7 @@ h2 {
   margin-right: 6px;
 }
 
-/* BADGE UNTUK FREE RANK */
+/* BADGE FREE RANK */
 .rank-badge {
   background: linear-gradient(145deg, #a855f730, #3b0764);
   padding: 12px 20px;
@@ -358,13 +358,13 @@ footer {
 
 <div class="container">
 
-  <!-- LORE RINGKAS -->
+  <!-- LORE -->
   <div class="card fade">
     <h2>📖 ▸ NARASI KEHANCURAN</h2>
     <p>Dunia hancur. Hukum lama lenyap. Di FASE 4, hanya yang disiplin dan haus darah yang bertahan. <strong>Roleplay & konflik</strong> adalah nyawa server.</p>
   </div>
 
-  <!-- ========== RULES SERVER (NEW) ========== -->
+  <!-- RULES SERVER -->
   <div class="card fade">
     <h2>📜 ▸ RULES SERVER — KODE ETIK ABSOLUT</h2>
     
@@ -407,7 +407,7 @@ footer {
     </div>
   </div>
 
-  <!-- ========== RULES GRUP ========== -->
+  <!-- RULES GRUP -->
   <div class="card fade">
     <h2>💬 ▸ RULES GRUP WHATSAPP & DISCORD</h2>
     <ul class="rule-list" style="list-style: none;">
@@ -418,7 +418,7 @@ footer {
     </ul>
   </div>
 
-  <!-- ========== FREE RANK CREATOR ========== -->
+  <!-- FREE RANK CREATOR -->
   <div class="card fade">
     <h2>🎬 ▸ FREE RANK CREATOR</h2>
     <div class="rank-badge">✦ SPECIAL PROGRAM ✦</div>
@@ -434,10 +434,10 @@ footer {
     </div>
   </div>
 
-  <!-- GATEWAY / KOMUNITAS -->
+  <!-- GATEWAY -->
   <div class="card fade">
-    <h2>📡 ▸ GERBONG KOMUNITAS</h2>
-    <a class="link" href="https://chat.whatsapp.com/F0vqI0gK5hxGqDo7P0eHLX">⟐ Grup utama WhatsApp</a>
+    <h2>📡 ▸ GERBANG KOMUNITAS</h2>
+    <a class="link" href="https://chat.whatsapp.com/F0vqI0gK5hxGqDo7P0eHLN">⟐ Grup utama WhatsApp</a>
     <a class="link" href="https://chat.whatsapp.com/DM3pYGUoSwg9Aojwk6ERSn">⚙️ Whitelist & Verifikasi</a>
     <a class="link" href="https://discord.gg/cmGwdzEj7f">🎙️ Discord Server — War Room</a>
     <a class="link" href="https://saweria.co/alzhardcore">☠️ Support Server (Donasi)</a>
@@ -449,36 +449,58 @@ footer {
 </footer>
 
 <script>
-  const loadingDiv = document.getElementById("loading");
-  window.addEventListener("load", function() {
-    setTimeout(() => {
-      loadingDiv.style.opacity = "0";
+  (function() {
+    const loadingDiv = document.getElementById('loading');
+    if (!loadingDiv) return;
+
+    // Fungsi untuk menghilangkan loading dengan aman
+    function hideLoading() {
+      if (!loadingDiv) return;
+      loadingDiv.style.opacity = '0';
       setTimeout(() => {
-        if (loadingDiv && loadingDiv.remove) loadingDiv.remove();
+        if (loadingDiv && loadingDiv.remove) {
+          loadingDiv.remove();
+        }
       }, 500);
-    }, 1100);
-  });
+    }
 
-  const fadeElements = document.querySelectorAll('.fade');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('show');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
+    // Jika document sudah selesai dimuat
+    if (document.readyState === 'complete') {
+      setTimeout(hideLoading, 300);
+    } else {
+      window.addEventListener('load', function() {
+        setTimeout(hideLoading, 400);
+      });
+    }
 
-  fadeElements.forEach(el => observer.observe(el));
+    // FALLBACK: paksa hilangkan loading maksimal 1.5 detik
+    setTimeout(hideLoading, 1500);
 
-  setTimeout(() => {
-    fadeElements.forEach(el => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight - 100) {
-        el.classList.add('show');
-      }
-    });
-  }, 200);
+    // Intersection Observer untuk animasi fade
+    const fadeElements = document.querySelectorAll('.fade');
+    if (fadeElements.length) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
+
+      fadeElements.forEach(el => observer.observe(el));
+
+      // Sedikit delay untuk yang mungkin sudah terlihat
+      setTimeout(() => {
+        fadeElements.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight - 100) {
+            el.classList.add('show');
+          }
+        });
+      }, 300);
+    }
+  })();
 </script>
 </body>
-  </html>
+</html>
